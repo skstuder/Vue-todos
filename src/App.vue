@@ -3,8 +3,8 @@
         <header>
             <div>Todos App</div>
             <nav>
-                <a href="#">todo's</a>
-                <a href="#">about</a>
+                <router-link to="/">todo's</router-link>
+                <router-link to="/about">about</router-link>
             </nav>
         </header>
         <div class="layout">
