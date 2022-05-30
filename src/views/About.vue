@@ -27,7 +27,6 @@
                 <li>Upgraded Vue router to V4</li>
                 <li>Upgraded all packages that were not vue 3 compatible</li>
                 <li>Removed all security vulnerabilites, 50 total</li>
-                <li><b>Todo: remove lorem ipsum placeholders, add local storage functionality so the todo's persist</b></li>
             </ul>
         </div>
     </div>
