@@ -43,7 +43,7 @@
     --level-4: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
     /* Positioning */
-    --containerPadding: 12.5%;
+    --containerPadding: 2.5%;
     --headerHeight: 3rem;
     --border-radius: 10px;
 }
@@ -265,6 +265,7 @@ button.small {
 @media only screen and (min-width: 500px) {
     :root {
         --baseFontSize: 112.5%;
+        --containerPadding: 12.5%;
     }
     .grid {
         display: grid;

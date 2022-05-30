@@ -11,7 +11,7 @@
                 .
             </p>
 
-            <h2>First Refactor in 2019 as a junior dev</h2>
+            <h2>First Refactor in 2019</h2>
             <ul>
                 <li>Converted it to use vuetify, framework used by employer at the time</li>
                 <li>Added transitions</li>
@@ -19,7 +19,7 @@
                 <li>Added axios to make requests to public api's</li>
                 <li>Changed from a copy of a tutorial to something that had my unique style</li>
             </ul>
-            <h2>Second refactor in 2022 as a mid level dev</h2>
+            <h2>Second refactor in 2022</h2>
             <ul>
                 <li>Removed Vuetify and added my own custom classless css library called OliverCSS</li>
                 <li>Converted from webpack to vite</li>
