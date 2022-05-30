@@ -1,12 +1,9 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import vuetify from './plugins/vuetify';
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router.js";
+import "./assets/css/normalize.css";
+import "./assets/css/style.css";
 
-Vue.config.productionTip = false
+const app = createApp(App);
 
-new Vue({
-  router,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+app.use(router).mount("#app");
