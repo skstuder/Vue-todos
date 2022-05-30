@@ -18,7 +18,8 @@ export default {
             e.preventDefault();
             const newTodo = {
                 title: this.title,
-                completed: false
+                completed: false,
+                id: Date.now()
             };
             //send up to parent
             this.$emit("add-todo", newTodo);

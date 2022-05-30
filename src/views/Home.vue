@@ -1,14 +1,24 @@
 <template>
     <div>
         <AddTodo v-on:add-todo="addTodo" />
-        <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo" />
+        <Todos v-if="todos.length" v-bind:todos="todos" v-on:del-todo="deleteTodo" />
+        <div v-else>
+            <br />
+            <br />
+            <p>No todos here, add one above!</p>
+        </div>
     </div>
 </template>
 
 <script>
 import Todos from "../components/Todos.vue";
 import AddTodo from "../components/AddTodo.vue";
-import axios from "axios";
+
+const SAMPLE_TODOS = [
+    { userId: 1, id: 1, title: "Here is a sample todo!", completed: false, sample: true },
+    { userId: 2, id: 2, title: "Here is a sample todo that's completed!", completed: true, sample: true }
+];
+
 export default {
     name: "Home",
     components: {
@@ -17,35 +27,28 @@ export default {
     },
     data() {
         return {
-            todos: []
+            sampleTodos: SAMPLE_TODOS,
+            todos: [],
+            hasSampleTodos: true
         };
     },
     methods: {
         deleteTodo(id) {
-            axios
-                .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-                .then((res) => {
-                    return (this.todos = this.todos.filter((todo) => todo.id !== id)), res;
-                })
-                .catch((err) => console.error(err));
+            this.todos = this.todos.filter((todo) => todo.id !== id);
+            localStorage.setItem("todos", JSON.stringify([...this.todos]));
         },
         addTodo(newTodo) {
-            const { title, completed } = newTodo;
-            localStorage.setItem("todo", [title, completed]);
-            axios
-                .post("https://jsonplaceholder.typicode.com/todos", {
-                    title,
-                    completed
-                })
-                .then((res) => (this.todos = [...this.todos, res.data]))
-                .catch((err) => console.error(err));
+            const { title, completed, id } = newTodo;
+            localStorage.setItem("todos", JSON.stringify([...this.todos, newTodo]));
+            this.todos = [...this.todos, newTodo];
+        },
+
+        getTodosFromLocalStorage() {
+            this.todos = JSON.parse(localStorage.getItem("todos")) || [];
         }
     },
     created() {
-        axios
-            .get("https://jsonplaceholder.typicode.com/todos?_limit=5")
-            .then((res) => (this.todos = res.data))
-            .catch((err) => console.error(err));
+        this.getTodosFromLocalStorage();
     }
 };
 </script>
