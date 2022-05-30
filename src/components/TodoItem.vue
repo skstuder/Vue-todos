@@ -1,9 +1,9 @@
 <template>
     <li class="todo-item" v-bind:class="{ 'is-complete': todo.completed }">
         <p class="p-3">
-            <input type="checkbox" v-model="todo.completed" />
+            <input type="checkbox" v-model="todo.completed" aria-label="todo checkbox" />
             {{ todo.title }}
-            <button @click="$emit('del-todo', todo.id)" class="del">
+            <button @click="$emit('del-todo', todo.id)" class="delete-button" aria-label="delete button">
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
         </p>
@@ -26,7 +26,10 @@ export default {
 .is-complete {
     text-decoration: line-through;
 }
-.del {
+.d-none {
+    display: none;
+}
+.delete-button {
     color: #000;
     border: none;
     padding: 5px 9px;
