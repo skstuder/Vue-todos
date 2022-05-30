@@ -16,7 +16,7 @@
                 <li>Converted it to use vuetify, framework used by employer at the time</li>
                 <li>Added transitions</li>
                 <li>Added vue router</li>
-                <li>Added axios to make request to public api's</li>
+                <li>Added axios to make requests to public api's</li>
                 <li>Changed from a copy of a tutorial to something that had my unique style</li>
             </ul>
             <h2>Second refactor in 2022 as a mid level dev</h2>
