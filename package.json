@@ -7,6 +7,10 @@
         "build": "vite-build",
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
     },
+    "preinstall": "npx npm-force-resolutions",
+    "resolutions": {
+        "glob-parent": "^6.0.1"
+    },
     "dependencies": {
         "@vitejs/plugin-vue": "^2.3.3",
         "@vue/compat": "^3.2.36",
@@ -23,7 +27,7 @@
         "eslint": "^8.16.0",
         "eslint-plugin-vue": "^8.7.1",
         "sass": "^1.19.0",
-        "webpack": "^4.44.1"
+        "webpack": "^5.72.1"
     },
     "eslintConfig": {
         "root": true,
