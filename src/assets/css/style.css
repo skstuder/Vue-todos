@@ -44,6 +44,7 @@
 
     /* Positioning */
     --containerPadding: 2.5%;
+    --headerPadding: 2.5%;
     --headerHeight: 3rem;
     --border-radius: 10px;
 }
@@ -81,7 +82,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 var(--containerPadding);
+    padding: 0 var(--headerPadding);
 }
 
 header nav a {
