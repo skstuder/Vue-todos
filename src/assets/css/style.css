@@ -70,7 +70,9 @@ body {
     font-weight: 400;
     line-height: 1.75;
 }
-
+ul {
+    padding-inline-start: 0;
+}
 header {
     color: white;
     position: fixed;
@@ -225,6 +227,7 @@ button.small {
 }
 
 .layout {
+    min-height: 100vh;
     padding: calc(3rem + var(--headerHeight)) var(--containerPadding);
 }
 
