@@ -14,9 +14,9 @@
 
 <script>
 const TIMES = {
-    workTimer: 5,
-    shortBreakTimer: 6,
-    longBreakTimer: 7
+    workTimer: 1500,
+    shortBreakTimer: 300,
+    longBreakTimer: 1200
 };
 const STAGES = ["work1", "shortBreak1", "work2", "shortBreak2", "work3", "shortBreak3", "work4", "longBreak"];
 export default {
