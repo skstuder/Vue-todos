@@ -22,6 +22,9 @@ export default {
 .home-layout {
     display: block;
 }
+.pomo-container {
+    margin-bottom: 20px;
+}
 @media only screen and (min-width: 500px) {
     .home-layout {
         display: flex;
