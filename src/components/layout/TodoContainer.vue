@@ -3,8 +3,6 @@
         <AddTodo v-on:add-todo="addTodo" />
         <Todos v-if="todos.length" v-bind:todos="todos" v-on:del-todo="deleteTodo" />
         <div v-else>
-            <br />
-            <br />
             <p>No todos here, add one above!</p>
         </div>
     </div>
