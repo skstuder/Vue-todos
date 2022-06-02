@@ -10,7 +10,6 @@ import TodoContainer from "../components/layout/TodoContainer.vue";
 import PomoContainer from "../components/layout/PomoContainer.vue";
 
 export default {
-    name: "Home",
     components: {
         TodoContainer,
         PomoContainer

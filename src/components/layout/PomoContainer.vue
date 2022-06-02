@@ -100,16 +100,20 @@ export default {
             return num.toString().padStart(2, "0");
         },
 
-        checkIfStarted() {
-            if (this.isStarted) {
-                this.pauseTimer();
-            } else {
-                this.startTimer();
+        checkIfStarted(e) {
+            if (e?.keyCode === 32) {
+                if (this.isStarted) {
+                    this.pauseTimer();
+                } else {
+                    this.startTimer();
+                }
             }
         },
 
         listenForSpace() {
-            window.addEventListener("keyup", this.checkIfStarted);
+            window.addEventListener("keyup", (event) => {
+                this.checkIfStarted(event);
+            });
         }
     },
     created() {
@@ -132,9 +136,6 @@ export default {
         } else {
             this.root.style.setProperty("--background", "var(--lightgrey)");
         }
-    },
-    beforeDestroy() {
-        window.removeEventListener("keyup", this.checkIfStarted);
     }
 };
 </script>
