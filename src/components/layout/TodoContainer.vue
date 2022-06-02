@@ -1,6 +1,6 @@
 <template>
     <div>
-        <AddTodo v-on:add-todo="addTodo" />
+        <AddTodo v-on:add-todo="addTodo" @is-showing-text="isShowingText" />
         <Todos v-if="todos.length" v-bind:todos="todos" v-on:del-todo="deleteTodo" />
         <div v-else>
             <p>No todos here, add one above!</p>
@@ -40,6 +40,11 @@ export default {
 
         getTodosFromLocalStorage() {
             this.todos = JSON.parse(localStorage.getItem("todos")) || [];
+        },
+
+        isShowingText(event) {
+            console.log(event);
+            this.$emit("is-showing-text", event);
         }
     },
     created() {

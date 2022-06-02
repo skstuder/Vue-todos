@@ -1,7 +1,7 @@
 <template>
     <div class="home-layout">
-        <pomo-container class="pomo-container" />
-        <todo-container class="todo-container" />
+        <pomo-container class="pomo-container" :is-showing-text="isShowingText" />
+        <todo-container class="todo-container" @is-showing-text="updateIsShowingText" />
     </div>
 </template>
 
@@ -13,6 +13,16 @@ export default {
     components: {
         TodoContainer,
         PomoContainer
+    },
+    data() {
+        return {
+            isShowingText: false
+        };
+    },
+    methods: {
+        updateIsShowingText(event) {
+            this.isShowingText = event;
+        }
     }
 };
 </script>

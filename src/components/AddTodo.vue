@@ -19,6 +19,11 @@ export default {
             isShowingText: false
         };
     },
+    watch: {
+        isShowingText(newValue) {
+            this.$emit("is-showing-text", newValue);
+        }
+    },
     methods: {
         addTodo(e) {
             e.preventDefault();

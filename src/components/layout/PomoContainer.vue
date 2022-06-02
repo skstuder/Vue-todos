@@ -32,6 +32,12 @@ export default {
             root: null
         };
     },
+    props: {
+        isShowingText: {
+            type: Boolean,
+            default: false
+        }
+    },
     computed: {
         minsAndSecs() {
             const minutes = Math.floor(this.timerCount / 60);
@@ -101,7 +107,7 @@ export default {
         },
 
         checkIfStarted(e) {
-            if (e?.keyCode === 32) {
+            if (e?.keyCode === 32 && !this.isShowingText) {
                 if (this.isStarted) {
                     this.pauseTimer();
                 } else {
