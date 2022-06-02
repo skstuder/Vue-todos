@@ -39,11 +39,13 @@ export default {
             return `${this.padTo2Digits(minutes)}:${this.padTo2Digits(seconds)}`;
         },
         currentPhaseLabel() {
+            let answer;
             if (this.currentStage === "work1" || this.currentStage === "work2" || this.currentStage === "work3" || this.currentStage === "work4") {
-                return "Hard at work";
+                answer = "Hard at work";
             }
-            if (this.currentStage === "shortBreak1" || this.currentStage === "shortBreak2" || this.currentStage === "shortBreak3") return "Take a short break";
-            if (this.currentStage === "longBreak") return "Take a nice long break";
+            if (this.currentStage === "shortBreak1" || this.currentStage === "shortBreak2" || this.currentStage === "shortBreak3") answer = "Take a short break";
+            if (this.currentStage === "longBreak") answer = "Take a nice long break";
+            return answer;
         }
     },
 
@@ -96,11 +98,24 @@ export default {
 
         padTo2Digits(num) {
             return num.toString().padStart(2, "0");
+        },
+
+        checkIfStarted() {
+            if (this.isStarted) {
+                this.pauseTimer();
+            } else {
+                this.startTimer();
+            }
+        },
+
+        listenForSpace() {
+            window.addEventListener("keyup", this.checkIfStarted);
         }
     },
     created() {
         this.currentStage = this.stages[0];
         this.root = document.documentElement;
+        this.listenForSpace();
     },
     updated() {
         if ((this.isStarted && this.currentStage === "work1") || this.currentStage === "work2" || this.currentStage === "work3" || this.currentStage === "work4") {
@@ -117,6 +132,9 @@ export default {
         } else {
             this.root.style.setProperty("--background", "var(--lightgrey)");
         }
+    },
+    beforeDestroy() {
+        window.removeEventListener("keyup", this.checkIfStarted);
     }
 };
 </script>
