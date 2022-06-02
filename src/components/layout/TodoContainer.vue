@@ -17,7 +17,6 @@ const SAMPLE_TODOS = [
 ];
 
 export default {
-    name: "Home",
     components: {
         Todos,
         AddTodo
@@ -35,7 +34,6 @@ export default {
             localStorage.setItem("todos", JSON.stringify([...this.todos]));
         },
         addTodo(newTodo) {
-            const { title, completed, id } = newTodo;
             localStorage.setItem("todos", JSON.stringify([...this.todos, newTodo]));
             this.todos = [...this.todos, newTodo];
         },
@@ -74,5 +72,8 @@ body {
 }
 .btn:hover {
     background: #666;
+}
+p {
+    margin-top: 10px;
 }
 </style>
