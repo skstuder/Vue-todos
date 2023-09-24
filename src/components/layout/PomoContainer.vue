@@ -156,7 +156,6 @@ export default {
     border-radius: var(--border-radius);
     background-color: rgba(75, 66, 66, 0.5);
     height: 100%;
-    text-align: center;
 }
 .text-white {
     color: white;
@@ -165,9 +164,21 @@ button {
     cursor: pointer;
     margin: 5px 5px;
 }
+h1 {
+    margin-bottom: 0;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
 @media only screen and (min-width: 500px) {
-    .background {
-        margin: 10px 20px;
-    }
+ 
+    h1 {
+    margin-bottom: 10px;
+}
+p {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 }
 </style>

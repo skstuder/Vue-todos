@@ -28,24 +28,15 @@ export default {
 </script>
 
 <style>
-.home-layout {
-    display: block;
-}
-.pomo-container {
-    margin-bottom: 20px;
-}
-@media only screen and (min-width: 500px) {
+
     .home-layout {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
     }
     .pomo-container {
         flex: 1;
-        margin-right: 40px;
         height: 300px;
     }
-    .todo-container {
-        flex: 3;
-    }
-}
+    
+
 </style>
