@@ -1,3 +1,15 @@
+<script setup>
+import { ref } from "vue";
+import TodoContainer from "../components/layout/TodoContainer.vue";
+import PomoContainer from "../components/layout/PomoContainer.vue";
+
+const isShowingText = ref(false)
+
+function updateIsShowingText(event) {
+    isShowingText.value = event;
+}
+</script>
+
 <template>
     <div class="home-layout">
         <pomo-container class="pomo-container" :is-showing-text="isShowingText" />
@@ -5,27 +17,6 @@
     </div>
 </template>
 
-<script>
-import TodoContainer from "../components/layout/TodoContainer.vue";
-import PomoContainer from "../components/layout/PomoContainer.vue";
-
-export default {
-    components: {
-        TodoContainer,
-        PomoContainer
-    },
-    data() {
-        return {
-            isShowingText: false
-        };
-    },
-    methods: {
-        updateIsShowingText(event) {
-            this.isShowingText = event;
-        }
-    }
-};
-</script>
 
 <style>
 

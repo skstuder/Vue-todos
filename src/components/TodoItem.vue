@@ -1,3 +1,8 @@
+<script setup>
+//Todo: add type check here
+const props = defineProps(["todo"]);
+</script>
+
 <template>
     <li class="todo-item" v-bind:class="{ 'is-complete': todo.completed }">
         <p class="p-3">
@@ -10,12 +15,6 @@
     </li>
 </template>
 
-<script>
-export default {
-    name: "TodoItem",
-    props: ["todo"]
-};
-</script>
 
 <style scope>
 .todo-item {

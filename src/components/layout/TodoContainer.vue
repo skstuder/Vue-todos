@@ -1,12 +1,10 @@
 <template>
     <div>
-    <template v-if="todos.length">
+    <template>
         <Todos  :todos="todos" @del-todo="deleteTodo" />
         <AddTodo @add-todo="addTodo" @is-showing-text="isShowingText" />
     </template>
-        <div v-else>
-            <p>No tasks here, add one above!</p>
-        </div>
+   
     </div>
 </template>
 <script>

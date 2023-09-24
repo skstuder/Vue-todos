@@ -3,7 +3,7 @@
         <a v-if="!isShowingText" href="#" @click="isShowingText = !isShowingText">
             <div class="d-flex justify-center flex-column start-todo-button">Add A Task</div>
         </a>
-        <form v-else class="add-todo" @submit="addTodo" @keyup.enter="addTodo">
+        <form v-else class="add-todo">
             <input v-model="title" :counter="50" aria-label="Add Todo" placeholder="Add a task!" required />
             <button width="100%" class="primary" @click="addTodo" @keyup.enter="addTodo">Add Todo</button>
             <!-- Todo: fix spacing with tailwind -->
@@ -13,33 +13,26 @@
 </template>
 
 <script>
-export default {
-    name: "AddTodo",
-    data() {
-        return {
-            title: "",
-            isShowingText: false
-        };
-    },
-    watch: {
-        isShowingText(newValue) {
-            this.$emit("is-showing-text", newValue);
-        }
-    },
-    methods: {
-        addTodo() {
-            const newTodo = {
-                title: this.title,
-                completed: false,
-                id: Date.now()
-            };
-            //send up to parent
-            this.$emit("add-todo", newTodo);
-            this.title = "";
-            this.isShowingText = !this.isShowingText;
-        }
-    }
-};
+import { watch, ref } from 'vue';
+
+const title = ref("");
+const isShowingText = ref(false)
+ 
+watch(isShowingText, (newValue) => {
+    this.$emit("is-showing-text", newValue);
+})
+
+function addTodo() {
+    const newTodo = {
+        title: this.title,
+        completed: false,
+        id: Date.now()
+    };
+    //send up to parent
+    this.$emit("add-todo", newTodo);
+    this.title = "";
+    this.isShowingText = !this.isShowingText;
+}
 </script>
 
 <style scoped>
