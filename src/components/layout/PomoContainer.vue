@@ -140,7 +140,7 @@ export default {
         else if (this.isStarted && this.currentStage === "longBreak") {
             this.root.style.setProperty("--background", "#FFFFE0");
         } else {
-            this.root.style.setProperty("--background", "var(--lightgrey)");
+            this.root.style.setProperty("--background", "var(--white)");
         }
     }
 };

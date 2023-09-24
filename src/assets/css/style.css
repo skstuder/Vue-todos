@@ -15,7 +15,7 @@
     /* Define the colors intentions */
     --primary: var(--green);
     --danger: var(--red);
-    --background: var(--lightgrey);
+    --background: var(--white);
     --textColor: var(--black);
     --buttonTextColor: var(--black);
     --lineColor: var(--grey);

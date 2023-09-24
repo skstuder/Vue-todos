@@ -1,12 +1,8 @@
 <template>
-    <div>
-    <template>
-        <Todos  :todos="todos" @del-todo="deleteTodo" />
-        <AddTodo @add-todo="addTodo" @is-showing-text="isShowingText" />
-    </template>
-   
-    </div>
+    <Todos  :todos="todos" @del-todo="deleteTodo" />
+    <AddTodo @add-todo="addTodo" @is-showing-text="isShowingText" />
 </template>
+
 <script>
 import Todos from "../Todos.vue";
 import AddTodo from "../AddTodo.vue";
