@@ -270,7 +270,7 @@ button.small {
 @media only screen and (min-width: 500px) {
     :root {
         --baseFontSize: 112.5%;
-        --containerPadding: 12.5%;
+        --containerPadding: 22.5%;
     }
     .grid {
         display: grid;
