@@ -1,9 +1,11 @@
 <template>
     <div>
-        <AddTodo v-on:add-todo="addTodo" @is-showing-text="isShowingText" />
-        <Todos v-if="todos.length" v-bind:todos="todos" v-on:del-todo="deleteTodo" />
+    <template v-if="todos.length">
+        <Todos  :todos="todos" @del-todo="deleteTodo" />
+        <AddTodo @add-todo="addTodo" @is-showing-text="isShowingText" />
+    </template>
         <div v-else>
-            <p>No todos here, add one above!</p>
+            <p>No tasks here, add one above!</p>
         </div>
     </div>
 </template>
@@ -43,7 +45,6 @@ export default {
         },
 
         isShowingText(event) {
-            console.log(event);
             this.$emit("is-showing-text", event);
         }
     },
