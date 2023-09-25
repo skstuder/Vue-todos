@@ -28,7 +28,7 @@ const emits = defineEmits(["add-todo", "is-showing-text"])
     <div class="add-todo">
         <input v-model="title" :counter="50" aria-label="Add Todo" placeholder="Add a task!" required @keyup.enter="addTodo" />
         <div class="w-full flex justify-end">
-            <button width="100%" class="primary ml-3" @click="addTodo">Add Todo</button>
+            <button width="100%" class="ml-3 text-sm font-bold" @click="addTodo">Add Todo</button>
         </div>
     </div>
 </template>
