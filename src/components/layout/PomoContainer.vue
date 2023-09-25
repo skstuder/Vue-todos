@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, computed, watchEffect, watch, onMounted, onUpdated } from "vue";
+    import { ref, computed, watch, onMounted, onUpdated } from "vue";
     const TIMES = {
         workTimer: 1500,
         shortBreakTimer: 300,
@@ -17,6 +17,7 @@
     const hasTimerEnabled = ref(false)
     const timerCount = ref(0)
     const times = ref(TIMES)
+    const timerId = ref(null)
     const stages = ref(STAGES)
     const currentStage = ref("")
     const isStarted = ref(false)
@@ -34,8 +35,11 @@
         if (currentStage.value === "work1" || currentStage.value === "work2" || currentStage.value === "work3" || currentStage.value === "work4") {
             answer = "Hard at work";
         }
-        if (currentStage.value === "shortBreak1" || currentStage.value === "shortBreak2" || currentStage.value === "shortBreak3") answer = "Take a short break";
-        if (currentStage.value === "longBreak") answer = "Take a nice long break";
+        else if (currentStage.value === "shortBreak1" || currentStage.value === "shortBreak2" || currentStage.value === "shortBreak3") answer = "Take a short break";
+        else if (currentStage.value === "longBreak") answer = "Take a nice long break";
+        else {
+            answer = "Not started yet";
+        }
         return answer;
     });
 
@@ -49,18 +53,20 @@
         if (currentStage.value === "work1" || currentStage.value === "work2" || currentStage.value === "work3" || currentStage.value === "work4") {
             timerCount.value = times.value.workTimer;
         }
-        if (currentStage.value === "shortBreak1" || currentStage.value === "shortBreak2" || currentStage.value === "shortBreak3") timerCount.value = times.value.shortBreakTimer;
-        if (currentStage.value === "longBreak") {
+        else if (currentStage.value === "shortBreak1" || currentStage.value === "shortBreak2" || currentStage.value === "shortBreak3") timerCount.value = times.value.shortBreakTimer;
+        else if (currentStage.value === "longBreak") {
             timerCount.value = times.value.longBreakTimer;
         }
     })
 
     watch(timerCount, (value) => {
         if (value > 0 && hasTimerEnabled.value) {
-            setTimeout(() => {
+            clearTimeout(timerId.value);
+            timerId.value = setTimeout(() => {
                 timerCount.value--;
             }, 1000);
         } else if (hasTimerEnabled.value) {
+            clearTimeout(timerId.value); 
             let nextIndex = stages.value.indexOf(currentStage.value) + 1;
             if (stages.value[nextIndex]) {
                 currentStage.value = stages.value[nextIndex];
@@ -69,6 +75,15 @@
             }
         }
     })
+
+    function skipPhase(){
+        let nextIndex = stages.value.indexOf(currentStage.value) + 1;
+        if (stages.value[nextIndex]) {
+            currentStage.value = stages.value[nextIndex];
+        } else {
+            currentStage.value = stages.value[0];
+        }
+    }
 
 
     function startTimer() {
@@ -130,16 +145,30 @@
 
 <template>
     <div class="background">
-        <h1 class="text-white">{{ minsAndSecs }}</h1>
-        <p class="text-white">
+        <div class="d-flex flex-2">
+            <div class="d-flex-row">
+                <h1 class="text-white">{{ minsAndSecs }}</h1>
+            </div>
+            <div class="d-flex-row">
+
+                <button v-if="!isStarted" @click="startTimer">Start Pomodoro</button>
+                <button v-if="isStarted" @click="pauseTimer">Pause Pomodoro</button>
+                <button @click="skipPhase()">Skip Phase</button>
+            </div>
+        </div>
+        <div class="d-flex flex-1">
             Pomodoro phase:
+            <div class="mb-2">
+                <img v-if="!isStarted && hasBegun" src="../../assets/work-station.png" height="100"/>
+                <img v-else-if="currentPhaseLabel === 'Hard at work'" src="../../assets/computer.png" height="100"/>
+                <img v-else-if="currentPhaseLabel === 'Take a nice long break'" src="../../assets/yoga.png" height="100"/>
+                <img v-else-if="currentPhaseLabel === 'Take a short break'" src="../../assets/relax.png" height="100"/>
+                <img v-else src="../../assets/work-station.png" height="100"/>
+            </div>
             <span v-if="!isStarted && hasBegun">PAUSED</span>
             <span v-else>{{ currentPhaseLabel }}</span>
-        </p>
-
-        <button v-if="!isStarted" @click="startTimer">Start Pomodoro</button>
-        <button v-if="isStarted" @click="pauseTimer">Pause Pomodoro</button>
-    </div>
+        </div>
+    </div>  
 </template>
 
 <style scoped>
@@ -147,11 +176,33 @@
     --background: var("--background");
     height: 100%;
 }
+.d-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    height: 100%;
+}
+.d-flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.flex-1 {
+    flex: 1;
+}
+.flex-2 {
+    flex: 2;
+}
 .background {
     padding: 20px;
     border-radius: var(--border-radius);
     background-color: rgba(75, 66, 66, 0.5);
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .text-white {
     color: white;
@@ -167,14 +218,28 @@ p {
     margin-top: 0;
     margin-bottom: 0;
 }
+mb-2 {
+    margin-bottom: 10px;
+}
 @media only screen and (min-width: 500px) {
  
-    h1 {
+h1 {
     margin-bottom: 10px;
 }
 p {
     margin-top: 10px;
     margin-bottom: 20px;
+}
+}
+@media only screen and (max-width: 992px) {
+ 
+.background {
+    flex-direction: column;
+}
+.d-flex-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 }
 </style>
