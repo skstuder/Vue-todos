@@ -1,10 +1,7 @@
 <template>
     <body>
         <header>
-            <div>Todos App</div>
-            <nav>
-                <router-link to="/">todo's</router-link>
-            </nav>
+            <div>Pomodoro Tasks</div>
         </header>
         <div class="layout">
             <router-view />

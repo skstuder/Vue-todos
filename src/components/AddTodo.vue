@@ -9,6 +9,7 @@ watch(isShowingText, (newValue) => {
 })
 
 function addTodo() {
+    if (!title.value) return
     const newTodo = {
         title: title.value,
         completed: false,
@@ -24,16 +25,11 @@ const emits = defineEmits(["add-todo", "is-showing-text"])
 </script>
 
 <template>
-    <div>
-        <a v-if="!isShowingText" href="#" @click="isShowingText = !isShowingText">
-            <div class="d-flex justify-center flex-column start-todo-button">Add A Task</div>
-        </a>
-        <template v-else class="add-todo">
-            <input v-model="title" :counter="50" aria-label="Add Todo" placeholder="Add a task!" required @keyup.enter="addTodo" />
-            <button width="100%" class="primary" @click="addTodo" >Add Todo</button>
-            <!-- Todo: fix spacing with tailwind -->
-            <button width="100%" class="primary" @click="isShowingText = !isShowingText">Clear</button>
-        </template>
+    <div class="add-todo">
+        <input v-model="title" :counter="50" aria-label="Add Todo" placeholder="Add a task!" required @keyup.enter="addTodo" />
+        <div class="w-full flex justify-end">
+            <button width="100%" class="primary ml-3" @click="addTodo">Add Todo</button>
+        </div>
     </div>
 </template>
 
@@ -67,5 +63,17 @@ input:focus {
 }
 .add-todo {
     margin-top:30px
+}
+.ml-3 {
+    margin-left: .5rem;
+}
+.w-full {
+    width: 100%;
+}
+.flex {
+    display: flex;
+}
+.justify-end {
+    justify-content: flex-end;
 }
 </style>

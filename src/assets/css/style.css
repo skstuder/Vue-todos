@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Work+Sans:400|Space+Mono:400");
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Galada&display=swap");
 :root {
     /* Define colors as colors */
@@ -20,15 +20,16 @@
     --buttonTextColor: var(--black);
     --lineColor: var(--grey);
     --cardBg: var(--white);
-    --headerBackground: var(--darkBlue);
+    --headerBackground: var(--black);
     --footerBackground: var(--black);
 
     /* Styles */
     --line: solid 1px var(--lineColor);
 
     /* Type */
-    --headingFont: "Space Mono", monospace;
+    --headingFont: "Pacifico", monospace;
     --bodyFont: "Work Sans", sans-serif;
+
     --baseFontSize: 100%;
     --h1: 3.052rem;
     --h2: 2.441rem;
@@ -53,7 +54,7 @@
 /* From Typescale */
 html {
     font-size: var(--baseFontSize);
-    background: var(--lightGrey);
+    background: var(--white);
     box-sizing: border-box;
 }
 
@@ -86,6 +87,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 0 var(--headerPadding);
+    font-family: var(--headingFont)
 }
 
 header nav a {

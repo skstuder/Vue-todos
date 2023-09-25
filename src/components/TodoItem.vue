@@ -33,6 +33,8 @@ const props = defineProps(["todo"]);
     padding: 5px 9px;
     cursor: pointer;
     float: right;
+    background: var(--red);
+    color: var(--white);
 }
 ul {
     list-style-type: none;
