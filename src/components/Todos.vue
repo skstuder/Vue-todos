@@ -1,3 +1,14 @@
+<script setup>
+import TodoItem from "./TodoItem.vue";
+
+const props = defineProps({
+    todos: {
+        type: Array,
+        required: true
+    }
+});
+</script>
+
 <template>
     <div>
         <h3>TASKS</h3>
@@ -6,15 +17,3 @@
         </ul>
     </div>
 </template>
-<script>
-import TodoItem from "./TodoItem.vue";
-export default {
-    name: "Todos",
-    components: {
-        TodoItem
-    },
-    props: ["todos"]
-};
-</script>
-
-<style></style>

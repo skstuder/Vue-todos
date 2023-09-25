@@ -9,7 +9,6 @@ const routes = [
     },
 ];
 const router = createRouter({
-    //history fix
     history: createWebHistory(import.meta.env.BASE_URL),
     routes
 });

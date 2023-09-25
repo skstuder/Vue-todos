@@ -1,23 +1,9 @@
-<template>
-    <div>
-        <a v-if="!isShowingText" href="#" @click="isShowingText = !isShowingText">
-            <div class="d-flex justify-center flex-column start-todo-button">Add A Task</div>
-        </a>
-        <template v-else class="add-todo">
-            <input v-model="title" :counter="50" aria-label="Add Todo" placeholder="Add a task!" required @keyup.enter="addTodo" />
-            <button width="100%" class="primary" @click="addTodo" >Add Todo</button>
-            <!-- Todo: fix spacing with tailwind -->
-            <button width="100%" class="primary" @click="isShowingText = !isShowingText">Clear</button>
-        </template>
-    </div>
-</template>
-
 <script setup>
 import { watch, ref } from 'vue';
 
 const title = ref("");
 const isShowingText = ref(false)
- 
+    
 watch(isShowingText, (newValue) => {
     emits("is-showing-text", newValue);
 })
@@ -36,6 +22,20 @@ function addTodo() {
 const emits = defineEmits(["add-todo", "is-showing-text"])
 
 </script>
+
+<template>
+    <div>
+        <a v-if="!isShowingText" href="#" @click="isShowingText = !isShowingText">
+            <div class="d-flex justify-center flex-column start-todo-button">Add A Task</div>
+        </a>
+        <template v-else class="add-todo">
+            <input v-model="title" :counter="50" aria-label="Add Todo" placeholder="Add a task!" required @keyup.enter="addTodo" />
+            <button width="100%" class="primary" @click="addTodo" >Add Todo</button>
+            <!-- Todo: fix spacing with tailwind -->
+            <button width="100%" class="primary" @click="isShowingText = !isShowingText">Clear</button>
+        </template>
+    </div>
+</template>
 
 <style scoped>
 .start-todo-button {

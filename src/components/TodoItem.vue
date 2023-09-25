@@ -1,5 +1,4 @@
 <script setup>
-//Todo: add type check here
 const props = defineProps(["todo"]);
 </script>
 
