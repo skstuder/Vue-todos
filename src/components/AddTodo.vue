@@ -28,7 +28,6 @@ function addTodo() {
         completed: false,
         id: Date.now()
     };
-    //send up to parent
     emits("add-todo", newTodo);
     title.value = "";
     isShowingText.value = !isShowingText.value;

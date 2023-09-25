@@ -1,150 +1,146 @@
+<script setup>
+    import { ref, computed, watchEffect, watch, onMounted, onUpdated } from "vue";
+    const TIMES = {
+        workTimer: 1500,
+        shortBreakTimer: 300,
+        longBreakTimer: 1200
+    };
+    const STAGES = ["work1", "shortBreak1", "work2", "shortBreak2", "work3", "shortBreak3", "work4", "longBreak"];
+
+    const props = defineProps({
+        isShowingText: {
+            type: Boolean,
+            default: false
+        }
+    })
+        
+    const hasTimerEnabled = ref(false)
+    const timerCount = ref(0)
+    const times = ref(TIMES)
+    const stages = ref(STAGES)
+    const currentStage = ref("")
+    const isStarted = ref(false)
+    const hasBegun = ref(false)
+    const root = ref(null)
+
+    const minsAndSecs = computed(() => {
+        const minutes = Math.floor(timerCount.value / 60);
+        const seconds = timerCount.value % 60;
+        return `${padTo2Digits(minutes)}:${padTo2Digits(seconds)}`;
+    });
+
+    const currentPhaseLabel = computed(() => {
+        let answer;
+        if (currentStage.value === "work1" || currentStage.value === "work2" || currentStage.value === "work3" || currentStage.value === "work4") {
+            answer = "Hard at work";
+        }
+        if (currentStage.value === "shortBreak1" || currentStage.value === "shortBreak2" || currentStage.value === "shortBreak3") answer = "Take a short break";
+        if (currentStage.value === "longBreak") answer = "Take a nice long break";
+        return answer;
+    });
+
+    watch(hasTimerEnabled, (value) => {
+        if (value) {
+            timerCount.value--;
+        }
+    })
+
+    watch(currentStage, () => {
+        if (currentStage.value === "work1" || currentStage.value === "work2" || currentStage.value === "work3" || currentStage.value === "work4") {
+            timerCount.value = times.value.workTimer;
+        }
+        if (currentStage.value === "shortBreak1" || currentStage.value === "shortBreak2" || currentStage.value === "shortBreak3") timerCount.value = times.value.shortBreakTimer;
+        if (currentStage.value === "longBreak") {
+            timerCount.value = times.value.longBreakTimer;
+        }
+    })
+
+    watch(timerCount, (value) => {
+        if (value > 0 && hasTimerEnabled.value) {
+            setTimeout(() => {
+                timerCount.value--;
+            }, 1000);
+        } else if (hasTimerEnabled.value) {
+            let nextIndex = stages.value.indexOf(currentStage.value) + 1;
+            if (stages.value[nextIndex]) {
+                currentStage.value = stages.value[nextIndex];
+            } else {
+                currentStage.value = stages.value[0];
+            }
+        }
+    })
+
+
+    function startTimer() {
+        hasBegun.value = true;
+        isStarted.value = !isStarted.value;
+        hasTimerEnabled.value = true;
+    }
+
+    function pauseTimer() {
+        hasTimerEnabled.value = false;
+        isStarted.value = !isStarted.value;
+    }
+
+    function padTo2Digits(num) {
+        return num.toString().padStart(2, "0");
+    }
+
+    function checkIfStarted(e) {
+        if (e?.keyCode === 32 && !isShowingText.value) {
+            if (isStarted.value) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+    }
+
+    function listenForSpace() {
+        window.addEventListener("keyup", (event) => {
+            checkIfStarted(event);
+        });
+    }
+    
+
+    onMounted(() => {
+        currentStage.value = stages.value[0];
+        root.value = document.documentElement;
+        listenForSpace();
+    })
+
+    onUpdated(() => {
+        if ((isStarted.value && currentStage.value === "work1") || currentStage.value === "work2" || currentStage.value === "work3" || currentStage.value === "work4") {
+            root.value.style.setProperty("--background", "#C2E5D3");
+        } else if (
+            (isStarted.value && currentStage.value === "shortBreak1") ||
+            currentStage.value === "shortBreak2" ||
+            currentStage.value === "shortBreak3" ||
+            currentStage.value === "shortBreak4"
+        )
+            root.value.style.setProperty("--background", "#FFCCCB");
+        else if (isStarted.value && currentStage.value === "longBreak") {
+            root.value.style.setProperty("--background", "#FFFFE0");
+        } else {
+            root.value.style.setProperty("--background", "var(--white)");
+        }
+    }) 
+
+</script>
+
 <template>
     <div class="background">
         <h1 class="text-white">{{ minsAndSecs }}</h1>
         <p class="text-white">
             Pomodoro phase:
             <span v-if="!isStarted && hasBegun">PAUSED</span>
-            <span v-else>{{ this.currentPhaseLabel }}</span>
+            <span v-else>{{ currentPhaseLabel }}</span>
         </p>
 
-        <button v-if="!this.isStarted" @click="startTimer">Start Pomodoro</button>
-        <button v-if="this.isStarted" @click="pauseTimer">Pause Pomodoro</button>
+        <button v-if="!isStarted" @click="startTimer">Start Pomodoro</button>
+        <button v-if="isStarted" @click="pauseTimer">Pause Pomodoro</button>
     </div>
 </template>
-
-<script>
-const TIMES = {
-    workTimer: 1500,
-    shortBreakTimer: 300,
-    longBreakTimer: 1200
-};
-const STAGES = ["work1", "shortBreak1", "work2", "shortBreak2", "work3", "shortBreak3", "work4", "longBreak"];
-export default {
-    data() {
-        return {
-            hasTimerEnabled: false,
-            timerCount: 0,
-            times: TIMES,
-            stages: STAGES,
-            currentStage: "",
-            isStarted: false,
-            hasBegun: false,
-            root: null
-        };
-    },
-    props: {
-        isShowingText: {
-            type: Boolean,
-            default: false
-        }
-    },
-    computed: {
-        minsAndSecs() {
-            const minutes = Math.floor(this.timerCount / 60);
-            const seconds = this.timerCount % 60;
-            return `${this.padTo2Digits(minutes)}:${this.padTo2Digits(seconds)}`;
-        },
-        currentPhaseLabel() {
-            let answer;
-            if (this.currentStage === "work1" || this.currentStage === "work2" || this.currentStage === "work3" || this.currentStage === "work4") {
-                answer = "Hard at work";
-            }
-            if (this.currentStage === "shortBreak1" || this.currentStage === "shortBreak2" || this.currentStage === "shortBreak3") answer = "Take a short break";
-            if (this.currentStage === "longBreak") answer = "Take a nice long break";
-            return answer;
-        }
-    },
-
-    watch: {
-        hasTimerEnabled(value) {
-            if (value) {
-                this.timerCount--;
-            }
-        },
-        currentStage() {
-            if (this.currentStage === "work1" || this.currentStage === "work2" || this.currentStage === "work3" || this.currentStage === "work4") {
-                this.timerCount = this.times.workTimer;
-            }
-            if (this.currentStage === "shortBreak1" || this.currentStage === "shortBreak2" || this.currentStage === "shortBreak3") this.timerCount = this.times.shortBreakTimer;
-            if (this.currentStage === "longBreak") {
-                this.timerCount = this.times.longBreakTimer;
-            }
-        },
-
-        timerCount: {
-            handler(value) {
-                if (value > 0 && this.hasTimerEnabled) {
-                    setTimeout(() => {
-                        this.timerCount--;
-                    }, 1000);
-                } else if (this.hasTimerEnabled) {
-                    let nextIndex = this.stages.indexOf(this.currentStage) + 1;
-                    if (this.stages[nextIndex]) {
-                        this.currentStage = this.stages[nextIndex];
-                    } else {
-                        this.currentStage = this.stages[0];
-                    }
-                }
-            },
-            immediate: true // This ensures the watcher is triggered upon creation
-        }
-    },
-
-    methods: {
-        startTimer() {
-            this.hasBegun = true;
-            this.isStarted = !this.isStarted;
-            this.hasTimerEnabled = true;
-        },
-
-        pauseTimer() {
-            this.isStarted = !this.isStarted;
-            this.hasTimerEnabled = false;
-        },
-
-        padTo2Digits(num) {
-            return num.toString().padStart(2, "0");
-        },
-
-        checkIfStarted(e) {
-            if (e?.keyCode === 32 && !this.isShowingText) {
-                if (this.isStarted) {
-                    this.pauseTimer();
-                } else {
-                    this.startTimer();
-                }
-            }
-        },
-
-        listenForSpace() {
-            window.addEventListener("keyup", (event) => {
-                this.checkIfStarted(event);
-            });
-        }
-    },
-    created() {
-        this.currentStage = this.stages[0];
-        this.root = document.documentElement;
-        this.listenForSpace();
-    },
-    updated() {
-        if ((this.isStarted && this.currentStage === "work1") || this.currentStage === "work2" || this.currentStage === "work3" || this.currentStage === "work4") {
-            this.root.style.setProperty("--background", "#C2E5D3");
-        } else if (
-            (this.isStarted && this.currentStage === "shortBreak1") ||
-            this.currentStage === "shortBreak2" ||
-            this.currentStage === "shortBreak3" ||
-            this.currentStage === "shortBreak4"
-        )
-            this.root.style.setProperty("--background", "#FFCCCB");
-        else if (this.isStarted && this.currentStage === "longBreak") {
-            this.root.style.setProperty("--background", "#FFFFE0");
-        } else {
-            this.root.style.setProperty("--background", "var(--white)");
-        }
-    }
-};
-</script>
 
 <style scoped>
 :root {
