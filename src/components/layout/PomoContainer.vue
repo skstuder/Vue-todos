@@ -32,14 +32,14 @@
 
     const currentPhaseLabel = computed(() => {
         let answer;
-        if (currentStage.value === "work1" || currentStage.value === "work2" || currentStage.value === "work3" || currentStage.value === "work4") {
+        if (!hasBegun.value) {
+            answer = "Not started yet";
+
+        } else if (currentStage.value === "work1" || currentStage.value === "work2" || currentStage.value === "work3" || currentStage.value === "work4") {
             answer = "Hard at work";
         }
         else if (currentStage.value === "shortBreak1" || currentStage.value === "shortBreak2" || currentStage.value === "shortBreak3") answer = "Take a short break";
         else if (currentStage.value === "longBreak") answer = "Take a nice long break";
-        else {
-            answer = "Not started yet";
-        }
         return answer;
     });
 
@@ -125,13 +125,13 @@
     })
 
     onUpdated(() => {
-        if ((isStarted.value && currentStage.value === "work1") || currentStage.value === "work2" || currentStage.value === "work3" || currentStage.value === "work4") {
+        if ((isStarted.value) && (currentStage.value === "work1" || currentStage.value === "work2" || currentStage.value === "work3" || currentStage.value === "work4")) {
             root.value.style.setProperty("--background", "#C2E5D3");
         } else if (
-            (isStarted.value && currentStage.value === "shortBreak1") ||
+            (isStarted.value) && (currentStage.value === "shortBreak1" ||
             currentStage.value === "shortBreak2" ||
             currentStage.value === "shortBreak3" ||
-            currentStage.value === "shortBreak4"
+            currentStage.value === "shortBreak4")
         )
             root.value.style.setProperty("--background", "#FFCCCB");
         else if (isStarted.value && currentStage.value === "longBreak") {
@@ -151,21 +151,23 @@
             </div>
             <div class="d-flex-row">
 
-                <button v-if="!isStarted" @click="startTimer">Start Pomodoro</button>
-                <button v-if="isStarted" @click="pauseTimer">Pause Pomodoro</button>
-                <button @click="skipPhase()">Skip Phase</button>
+                <button class="text-sm" v-if="!isStarted" @click="startTimer">Start Pomodoro</button>
+                <button class="text-sm" v-if="isStarted" @click="pauseTimer">Pause Pomodoro</button>
+                <button class="text-sm" @click="skipPhase()">Skip Phase</button>
             </div>
         </div>
         <div class="d-flex flex-1">
-            Pomodoro phase:
-            <div class="mb-2">
-                <img v-if="!isStarted && hasBegun" src="../../assets/work-station.png" height="100"/>
-                <img v-else-if="currentPhaseLabel === 'Hard at work'" src="../../assets/computer.png" height="100"/>
-                <img v-else-if="currentPhaseLabel === 'Take a nice long break'" src="../../assets/yoga.png" height="100"/>
-                <img v-else-if="currentPhaseLabel === 'Take a short break'" src="../../assets/relax.png" height="100"/>
-                <img v-else src="../../assets/work-station.png" height="100"/>
+            <div class="mb-2 text-lg">
+                Pomodoro phase:
             </div>
-            <span v-if="!isStarted && hasBegun">PAUSED</span>
+            <div class="mb-2 w-24 h-24">
+                <img v-if="!isStarted && hasBegun" src="../../assets/work-station.png"/>
+                <img v-else-if="currentPhaseLabel === 'Hard at work'" src="../../assets/computer.png"/>
+                <img v-else-if="currentPhaseLabel === 'Take a nice long break'" src="../../assets/yoga.png"/>
+                <img v-else-if="currentPhaseLabel === 'Take a short break'" src="../../assets/relax.png"/>
+                <img v-else src="../../assets/work-station.png"/>
+            </div>
+            <span v-if="!isStarted && hasBegun">Paused</span>
             <span v-else>{{ currentPhaseLabel }}</span>
         </div>
     </div>  

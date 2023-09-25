@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Galada&display=swap");
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 :root {
     /* Define colors as colors */
     --green: #00ebc7;
@@ -114,10 +119,6 @@ footer a {
 footer p {
     margin-bottom: 0;
     max-width: none;
-}
-
-p {
-    margin-bottom: 1rem;
 }
 
 p a,

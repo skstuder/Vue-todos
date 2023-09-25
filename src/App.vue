@@ -1,7 +1,7 @@
 <template>
     <body>
         <header>
-            <div>Pomodoro Tasks</div>
+            <div class="text-xl">Pomodoro Tasks</div>
         </header>
         <div class="layout">
             <router-view />
